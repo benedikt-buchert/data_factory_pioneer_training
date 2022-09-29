@@ -1,9 +1,9 @@
 {
-	"name": "pipeline1",
+	"name": "csv to DB",
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy Merchant Data TO DB",
+				"name": "CSV_TO_DB",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
