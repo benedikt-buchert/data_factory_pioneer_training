@@ -10,6 +10,10 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@{pipeline().Pipeline}_@{utcnow('yyyy-MM-ddTHH-mm-ss-fffffffK')}.csv",
+					"type": "Expression"
+				},
 				"folderPath": "parquet",
 				"container": "merchant"
 			},
