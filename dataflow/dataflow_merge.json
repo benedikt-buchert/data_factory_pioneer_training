@@ -25,7 +25,11 @@
 						"referenceName": "blob_parquet",
 						"type": "DatasetReference"
 					},
-					"name": "writeData"
+					"name": "writeData",
+					"rejectedDataLinkedService": {
+						"referenceName": "AzureBlobStorage1",
+						"type": "LinkedServiceReference"
+					}
 				}
 			],
 			"transformations": [
@@ -33,7 +37,7 @@
 					"name": "leftJoin"
 				},
 				{
-					"name": "select1"
+					"name": "removeTimestamps"
 				}
 			],
 			"scriptLines": [
@@ -72,8 +76,8 @@
 				"          StockCode",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 sink(allowSchemaDrift: true,",
+				"     skipDuplicateMapOutputs: true) ~> removeTimestamps",
+				"removeTimestamps sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
 				"     skipDuplicateMapInputs: true,",
