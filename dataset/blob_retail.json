@@ -1,5 +1,5 @@
 {
-	"name": "retail",
+	"name": "blob_retail",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorage1",
