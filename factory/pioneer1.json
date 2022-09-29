@@ -1,0 +1,9 @@
+{
+	"name": "pioneer1",
+	"location": "westeurope",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "f9f95d15-eee7-4a90-ac5a-b6eb697306a2",
+		"tenantId": "92ce435f-094f-4227-af00-890e7337eb35"
+	}
+}
