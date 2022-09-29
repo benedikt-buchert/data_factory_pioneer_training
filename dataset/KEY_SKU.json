@@ -1,0 +1,32 @@
+{
+	"name": "KEY_SKU",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "KEY_SKU.csv",
+				"container": "merchant"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Product SKU",
+				"type": "String"
+			},
+			{
+				"name": "StockCode",
+				"type": "String"
+			}
+		]
+	}
+}
