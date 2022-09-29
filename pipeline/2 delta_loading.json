@@ -5,7 +5,20 @@
 			{
 				"name": "DB_TO_Parquet",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "new_watermark",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "set_old_watermark",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -17,7 +30,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzurePostgreSqlSource",
-						"query": "SELECT * FROM retail",
+						"query": {
+							"value": "SELECT * FROM retail\nWHERE modified_at < '@{variables('old_watermark')}'\nAND modified_at >= '@{activity('new_watermark').output.firstRow.new_watermark}'",
+							"type": "Expression"
+						},
 						"partitionOption": "None"
 					},
 					"sink": {
@@ -51,8 +67,124 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "new_watermark",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzurePostgreSqlSource",
+						"query": "SELECT MAX(modified_at) AS new_watermark FROM retail ",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "postgres",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "old_watermark",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"dataset": {
+						"referenceName": "watermarks",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "set_old_watermark",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "old_watermark",
+						"dependencyConditions": [
+							"Skipped"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "old_watermark",
+					"value": ""
+				}
+			},
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "DB_TO_Parquet",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false
+				},
+				"outputs": [
+					{
+						"referenceName": "watermarks",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
+		"variables": {
+			"old_watermark": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
