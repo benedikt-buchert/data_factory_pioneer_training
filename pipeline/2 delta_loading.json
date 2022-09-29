@@ -137,7 +137,7 @@
 				"typeProperties": {
 					"variableName": "old_watermark",
 					"value": {
-						"value": "@activity('old_watermark').output.firstRow",
+						"value": "@activity('old_watermark').output.firstRow.watermark",
 						"type": "Expression"
 					}
 				}
