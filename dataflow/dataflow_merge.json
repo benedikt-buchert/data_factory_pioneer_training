@@ -12,19 +12,37 @@
 					"name": "retail"
 				},
 				{
-					"name": "source2"
+					"dataset": {
+						"referenceName": "KEY_SKU",
+						"type": "DatasetReference"
+					},
+					"name": "SKU"
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "leftJoin"
+				}
+			],
 			"scriptLines": [
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     query: 'SELECT * FROM reail',",
+				"     query: 'SELECT * FROM retail',",
 				"     format: 'query') ~> retail",
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> source2"
+				"source(output(",
+				"          {Product SKU} as string,",
+				"          StockCode as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> SKU",
+				"retail, SKU join(ERROR_FUNCTION('') == StockCode,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> leftJoin"
 			]
 		}
 	}
