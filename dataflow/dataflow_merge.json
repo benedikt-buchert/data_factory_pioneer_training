@@ -19,14 +19,34 @@
 					"name": "SKU"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "blob_parquet",
+						"type": "DatasetReference"
+					},
+					"name": "writeData"
+				}
+			],
 			"transformations": [
 				{
 					"name": "leftJoin"
+				},
+				{
+					"name": "select1"
 				}
 			],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          id as integer,",
+				"          stock_code as string,",
+				"          invoice_no as string,",
+				"          created_at as timestamp,",
+				"          modified_at as timestamp,",
+				"          invoice_date as date,",
+				"          quantity as short",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     query: 'SELECT * FROM retail',",
@@ -38,11 +58,26 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> SKU",
-				"retail, SKU join(ERROR_FUNCTION('') == StockCode,",
+				"retail, SKU join(stock_code == StockCode,",
 				"     joinType:'left',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> leftJoin"
+				"     broadcast: 'auto')~> leftJoin",
+				"leftJoin select(mapColumn(",
+				"          stock_code,",
+				"          invoice_no,",
+				"          invoice_date,",
+				"          quantity,",
+				"          {Product SKU},",
+				"          StockCode",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> writeData"
 			]
 		}
 	}
