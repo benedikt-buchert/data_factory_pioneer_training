@@ -1,0 +1,36 @@
+{
+	"name": "watermarks",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@{pipeline().Pipeline}.txt",
+					"type": "Expression"
+				},
+				"folderPath": "watermark",
+				"container": "merchant"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Product SKU",
+				"type": "String"
+			},
+			{
+				"name": "StockCode",
+				"type": "String"
+			}
+		]
+	}
+}
