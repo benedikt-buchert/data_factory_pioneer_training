@@ -137,7 +137,7 @@
 				"typeProperties": {
 					"variableName": "old_watermark",
 					"value": {
-						"value": "@activity('old_watermark').output",
+						"value": "@activity('old_watermark').output.firstRow",
 						"type": "Expression"
 					}
 				}
@@ -164,7 +164,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzurePostgreSqlSource",
-						"query": "SELECT '@{activity('new_watermark').output.firstRow.new_watermark}' AS new_watermark",
+						"query": "SELECT '@{activity('new_watermark').output.firstRow.new_watermark}' AS watermark",
 						"partitionOption": "None"
 					},
 					"sink": {
