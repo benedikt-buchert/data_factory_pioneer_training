@@ -17,6 +17,13 @@
 						"dependencyConditions": [
 							"Completed"
 						]
+					},
+					{
+						"activity": "delete_old_files",
+						"dependencyConditions": [
+							"Skipped",
+							"Completed"
+						]
 					}
 				],
 				"policy": {
