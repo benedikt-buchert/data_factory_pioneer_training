@@ -1,5 +1,5 @@
 {
-	"name": "csv to DB",
+	"name": "1 csv to DB",
 	"properties": {
 		"activities": [
 			{
@@ -43,7 +43,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "invoide_no",
+									"name": "invoice_no",
 									"type": "String",
 									"physicalType": "character varying"
 								}
@@ -79,7 +79,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "quanity",
+									"name": "quantity",
 									"type": "Int16",
 									"physicalType": "smallint"
 								}
@@ -94,7 +94,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "retail",
+						"referenceName": "blob_retail",
 						"type": "DatasetReference"
 					}
 				],
