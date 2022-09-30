@@ -20,9 +20,19 @@
 		},
 		"schema": [
 			{
+				"name": "InvoiceNo",
 				"type": "String"
 			},
 			{
+				"name": "InvoiceDate",
+				"type": "String"
+			},
+			{
+				"name": "StockCode",
+				"type": "String"
+			},
+			{
+				"name": "Quantity",
 				"type": "String"
 			}
 		]
