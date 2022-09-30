@@ -1,6 +1,8 @@
 # data_factory_pioneer_training
 
-Create Table to write Data
+## SQL Queries used in the training outside of Data factory
+
+### Create Table to write Data
 ```
 DROP TABLE IF EXISTS retail;
 CREATE TABLE retail (
@@ -15,13 +17,14 @@ CREATE TABLE retail (
 );
 ```
 
-Show all values in table:
+### Show all values in table:
 ```
 SELECT *
 FROM retail
 ORDER BY invoice_date DESC;
+```
 
-Insert new test value into DB:
+### Insert new test value into DB:
 ```
 INSERT INTO retail(stock_code, invoice_no, invoice_date, quantity)
 VALUES ('580137', '10002', '2022-01-01', 5);
