@@ -38,6 +38,18 @@
 						"mappings": [
 							{
 								"source": {
+									"name": "StockCode",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "stock_code",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
 									"name": "InvoiceNo",
 									"type": "String",
 									"physicalType": "String"
@@ -58,18 +70,6 @@
 									"name": "invoice_date",
 									"type": "DateTime",
 									"physicalType": "date"
-								}
-							},
-							{
-								"source": {
-									"name": "StockCode",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "stock_code",
-									"type": "String",
-									"physicalType": "character varying"
 								}
 							},
 							{
