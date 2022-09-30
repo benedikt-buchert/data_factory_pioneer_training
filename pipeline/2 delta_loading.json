@@ -249,7 +249,7 @@
 		"variables": {
 			"old_watermark": {
 				"type": "String",
-				"defaultValue": "2020-09-29T15:42:50.581074+00:00"
+				"defaultValue": "1990-09-30T05:55:42.156668Z"
 			}
 		},
 		"annotations": []
