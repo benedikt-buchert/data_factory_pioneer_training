@@ -1,4 +1,4 @@
-# data_factory_pioneer_training
+# Data Factory Pioneer Training
 
 ## SQL Queries used in the training outside of Data factory
 
