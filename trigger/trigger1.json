@@ -1,0 +1,24 @@
+{
+	"name": "trigger1",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "1 csv to DB",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "CustomEventsTrigger",
+		"typeProperties": {
+			"subjectEndsWith": "",
+			"subjectBeginsWith": "",
+			"scope": "/subscriptions/5311ef18-67e3-427e-baa3-e415cfd81a9a/resourceGroups/azure_data_factory_pioneers/providers/Microsoft.EventGrid/topics/Adobetest",
+			"events": [
+				"test"
+			]
+		}
+	}
+}
